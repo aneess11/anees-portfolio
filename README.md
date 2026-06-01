@@ -3,7 +3,7 @@
 > **A premium, cinematic dark portfolio for a Cybersecurity & Digital Forensics professional.**
 > Built with React · TypeScript · Vite · Tailwind CSS · Framer Motion · Three.js · GSAP
 
-[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge&logo=vercel)](https://anees-portfolio.vercel.app)
+[![Live Demo](https://img.shields.io/badge/Live-Demo-brightgreen?style=for-the-badge&logo=vercel)](https://anees-portfolio-ten.vercel.app)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-aneeesahmed-blue?style=for-the-badge&logo=linkedin)](https://www.linkedin.com/in/aneeesahmed/)
 [![GitHub](https://img.shields.io/badge/GitHub-aneess11-black?style=for-the-badge&logo=github)](https://github.com/aneess11)
 
@@ -125,15 +125,6 @@ anees-portfolio/
 | Page title + SEO meta | `index.html` |
 
 ---
-
-## ☁️ Deploy to Vercel
-
-```bash
-# Push to GitHub (already done ✅)
-# Then import at https://vercel.com/new
-# → Select this repo → click Deploy
-# No environment variables needed
-```
 
 ---
 
