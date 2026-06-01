@@ -1,0 +1,29 @@
+# ignore build output & dependencies
+node_modules
+dist
+dist-ssr
+
+# Vercel & environment
+.vercel
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS artefacts
+.DS_Store
+Thumbs.db
+
+# Editor directories
+.vscode
+.idea
+
+# Root-level leftover assets (actual assets live in /public)
+/harsh.png
+/intro_anees.mp4
+
+# Windows null device (should never be tracked)
+NUL

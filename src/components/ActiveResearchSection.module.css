@@ -1,0 +1,457 @@
+/* =============================================================
+   ActiveResearchSection.module.css
+   Premium "Active Research" section styling.
+   Matches the portfolio's dark #0C0C0C / Kanit / #D7E2EA system
+   with amber & teal accent colors for in-progress status.
+   ============================================================= */
+
+/* ── Section wrapper ── */
+.section {
+  position: relative;
+  width: 100%;
+  padding: 80px 16px 96px;
+  overflow: hidden;
+}
+
+@media (min-width: 640px) {
+  .section {
+    padding: 100px 24px 112px;
+  }
+}
+
+@media (min-width: 768px) {
+  .section {
+    padding: 120px 40px 128px;
+  }
+}
+
+/* Subtle radial ambient glow in the background */
+.section::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 60%;
+  background: radial-gradient(
+    ellipse,
+    rgba(245, 158, 11, 0.028) 0%,
+    transparent 68%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Header ── */
+.header {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  margin-bottom: 56px;
+}
+
+@media (min-width: 640px) {
+  .header {
+    margin-bottom: 72px;
+  }
+}
+
+@media (min-width: 768px) {
+  .header {
+    margin-bottom: 88px;
+  }
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: rgba(245, 158, 11, 0.75);
+  margin-bottom: 16px;
+}
+
+@media (min-width: 640px) {
+  .eyebrow {
+    font-size: 11px;
+    margin-bottom: 20px;
+  }
+}
+
+/* Blinking ambient dot in the eyebrow */
+.eyebrowDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #F59E0B;
+  flex-shrink: 0;
+  animation: ambientPulse 2s ease-in-out infinite;
+}
+
+@keyframes ambientPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
+
+.heading {
+  font-size: clamp(3rem, 12vw, 160px);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+  line-height: 0.9;
+  /* Matches the portfolio's hero-heading gradient */
+  background: linear-gradient(180deg, #646973 0%, #bbccd7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.subheading {
+  margin-top: 20px;
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: rgba(215, 226, 234, 0.38);
+}
+
+@media (min-width: 640px) {
+  .subheading {
+    font-size: 13px;
+    margin-top: 24px;
+  }
+}
+
+/* ── Cards grid ── */
+.grid {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
+/* ── Individual card ── */
+.card {
+  position: relative;
+  border-radius: 28px;
+  padding: 28px;
+  background: #111116;
+  border: 1.5px solid rgba(215, 226, 234, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow: hidden;
+  transition: border-color 0.4s ease, transform 0.4s ease;
+}
+
+@media (min-width: 640px) {
+  .card {
+    padding: 32px;
+    border-radius: 32px;
+  }
+}
+
+.card:hover {
+  transform: translateY(-3px);
+}
+
+/* Amber variant */
+.card.amber {
+  border-color: rgba(245, 158, 11, 0.22);
+}
+.card.amber:hover {
+  border-color: rgba(245, 158, 11, 0.45);
+}
+
+/* Teal variant */
+.card.teal {
+  border-color: rgba(20, 184, 166, 0.22);
+}
+.card.teal:hover {
+  border-color: rgba(20, 184, 166, 0.45);
+}
+
+/* Corner ambient glow behind card content */
+.card::before {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -15%;
+  width: 55%;
+  height: 55%;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.4s ease;
+}
+
+.card.amber::before {
+  background: radial-gradient(
+    ellipse,
+    rgba(245, 158, 11, 0.07) 0%,
+    transparent 70%
+  );
+}
+
+.card.teal::before {
+  background: radial-gradient(
+    ellipse,
+    rgba(20, 184, 166, 0.07) 0%,
+    transparent 70%
+  );
+}
+
+.card.amber:hover::before { opacity: 1.4; }
+.card.teal:hover::before  { opacity: 1.4; }
+
+/* ── Card inner content layers (above the ::before glow) ── */
+.cardTop,
+.cardMeta,
+.cardTech,
+.cardFooter {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Status badge ── */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  padding: 5px 12px;
+  border-radius: 9999px;
+  width: fit-content;
+}
+
+.statusBadge.amber {
+  color: #F59E0B;
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.22);
+}
+
+.statusBadge.teal {
+  color: #14B8A6;
+  background: rgba(20, 184, 166, 0.1);
+  border: 1px solid rgba(20, 184, 166, 0.22);
+}
+
+/* Blinking status dot */
+.statusDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.statusDot.amber {
+  background: #F59E0B;
+  animation: blinkAmber 1.5s ease-in-out infinite;
+}
+
+.statusDot.teal {
+  background: #14B8A6;
+  animation: blinkTeal 1.5s ease-in-out infinite;
+}
+
+@keyframes blinkAmber {
+  0%, 100% { opacity: 1; box-shadow: 0 0 6px rgba(245, 158, 11, 0.8); }
+  50%       { opacity: 0.3; box-shadow: none; }
+}
+
+@keyframes blinkTeal {
+  0%, 100% { opacity: 1; box-shadow: 0 0 6px rgba(20, 184, 166, 0.8); }
+  50%       { opacity: 0.3; box-shadow: none; }
+}
+
+/* ── Card top row: badge + progress ring ── */
+.cardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* ── Progress ring (SVG) ── */
+.ringWrapper {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.ring {
+  width: 72px;
+  height: 72px;
+  transform: rotate(-90deg);
+}
+
+@media (min-width: 640px) {
+  .ring { width: 80px; height: 80px; }
+}
+
+.ringBg {
+  fill: none;
+  stroke: rgba(215, 226, 234, 0.07);
+  stroke-width: 4;
+}
+
+.ringFill {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ringFill.amber { stroke: #F59E0B; }
+.ringFill.teal  { stroke: #14B8A6; }
+
+.ringLabel {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 13px;
+  font-weight: 700;
+  color: #D7E2EA;
+}
+
+.ringLabelWrapper {
+  position: relative;
+  width: 72px;
+  height: 72px;
+}
+
+@media (min-width: 640px) {
+  .ringLabelWrapper { width: 80px; height: 80px; }
+}
+
+/* ── Card meta: title + description ── */
+.cardMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+}
+
+.cardTitle {
+  font-size: clamp(1rem, 2vw, 1.35rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  color: #D7E2EA;
+}
+
+.cardDesc {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(215, 226, 234, 0.52);
+}
+
+@media (min-width: 640px) {
+  .cardDesc { font-size: 14px; }
+}
+
+/* ── Tech stack pills ── */
+.techRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.techPill {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  padding: 4px 11px;
+  border-radius: 9999px;
+  color: rgba(215, 226, 234, 0.65);
+  background: rgba(215, 226, 234, 0.04);
+  border: 1px solid rgba(215, 226, 234, 0.12);
+  transition: all 0.25s ease;
+}
+
+.card:hover .techPill {
+  border-color: rgba(215, 226, 234, 0.22);
+  color: rgba(215, 226, 234, 0.85);
+}
+
+/* ── Card footer: progress bar + meta labels ── */
+.cardFooter {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-top: 1px solid rgba(215, 226, 234, 0.07);
+  padding-top: 18px;
+}
+
+.phaseRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.phaseLabel {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: rgba(215, 226, 234, 0.42);
+}
+
+.phaseLabel.amber { color: rgba(245, 158, 11, 0.65); }
+.phaseLabel.teal  { color: rgba(20, 184, 166, 0.65); }
+
+.lastUpdated {
+  font-size: 10px;
+  font-weight: 400;
+  color: rgba(215, 226, 234, 0.28);
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+}
+
+/* Full-width progress bar */
+.progressBarTrack {
+  width: 100%;
+  height: 3px;
+  border-radius: 9999px;
+  background: rgba(215, 226, 234, 0.07);
+  overflow: hidden;
+}
+
+.progressBarFill {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.progressBarFill.amber {
+  background: linear-gradient(90deg, rgba(245, 158, 11, 0.5) 0%, #F59E0B 100%);
+}
+
+.progressBarFill.teal {
+  background: linear-gradient(90deg, rgba(20, 184, 166, 0.5) 0%, #14B8A6 100%);
+}

@@ -1,0 +1,439 @@
+/* ==========================================================
+   CinematicHero.module.css
+   Premium dark-cinematic hero styling with glassmorphism,
+   warm-orange practical lighting, and monitor-blue accents.
+   ========================================================== */
+
+/* ── Container ── */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+
+/* ── Cinematic fade-from-black curtain ── */
+.curtain {
+  position: absolute;
+  inset: 0;
+  background: #000;
+  z-index: 50;
+  pointer-events: none;
+}
+
+/* ── Video layers ── */
+.videoBg {
+  position: absolute;
+  top: -80px;
+  left: -80px;
+  width: calc(100% + 160px);
+  height: calc(100% + 160px);
+  object-fit: cover;
+  filter: blur(60px) saturate(1.5) brightness(0.32);
+  opacity: 0.55;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.videoMain {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+
+/* ── Gradient overlays (layered for cinematic depth) ── */
+.overlays {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.gradientLeft {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to right,
+    rgba(0, 0, 0, 0.88) 0%,
+    rgba(0, 0, 0, 0.52) 28%,
+    rgba(0, 0, 0, 0.18) 52%,
+    transparent 78%
+  );
+}
+
+.gradientBottom {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.82) 0%,
+    rgba(0, 0, 0, 0.32) 18%,
+    transparent 42%
+  );
+}
+
+.gradientTop {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.55) 0%,
+    transparent 22%
+  );
+}
+
+.vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at 50% 50%,
+    transparent 28%,
+    rgba(0, 0, 0, 0.55) 100%
+  );
+}
+
+/* Warm practical-lighting glow (bottom-left) */
+.warmGlow {
+  position: absolute;
+  bottom: -28%;
+  left: -16%;
+  width: 58%;
+  height: 68%;
+  background: radial-gradient(
+    ellipse,
+    rgba(255, 140, 66, 0.055) 0%,
+    transparent 62%
+  );
+}
+
+/* Cool monitor-blue glow (top-right) */
+.blueGlow {
+  position: absolute;
+  top: -22%;
+  right: -12%;
+  width: 48%;
+  height: 58%;
+  background: radial-gradient(
+    ellipse,
+    rgba(74, 158, 255, 0.035) 0%,
+    transparent 58%
+  );
+}
+
+/* ── Content layer ── */
+.content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 24px 24px 28px;
+  font-family: 'Kanit', sans-serif;
+}
+
+@media (min-width: 640px) {
+  .content {
+    padding: 32px 32px 40px;
+  }
+}
+
+@media (min-width: 768px) {
+  .content {
+    padding: 36px 40px 48px;
+  }
+}
+
+/* ── Navigation ── */
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+@media (min-width: 640px) {
+  .navLinks {
+    gap: 32px;
+  }
+}
+
+@media (min-width: 768px) {
+  .navLinks {
+    gap: 48px;
+  }
+}
+
+.navLink {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.72);
+  text-decoration: none;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+@media (min-width: 640px) {
+  .navLink {
+    font-size: 13px;
+  }
+}
+
+.navLink:hover {
+  color: #fff;
+  text-shadow: 0 0 18px rgba(255, 255, 255, 0.15);
+}
+
+/* Glassmorphism "Email me" pill */
+.emailBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.065);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+@media (min-width: 640px) {
+  .emailBtn {
+    padding: 10px 20px;
+    font-size: 12px;
+  }
+}
+
+.emailBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.28);
+  transform: scale(1.04);
+  box-shadow: 0 4px 24px rgba(255, 255, 255, 0.06);
+}
+
+/* ── Hero text ── */
+.heroText {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 1280px;
+}
+
+.tagline {
+  margin-bottom: 16px;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: rgba(255, 140, 66, 0.68);
+}
+
+@media (min-width: 640px) {
+  .tagline {
+    font-size: 12px;
+    margin-bottom: 20px;
+  }
+}
+
+.name {
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.88;
+  letter-spacing: -0.025em;
+  color: #fff;
+  font-size: clamp(3.5rem, 14vw, 12rem);
+  margin: 0;
+  text-shadow: 0 6px 80px rgba(0, 0, 0, 0.35),
+    0 2px 20px rgba(0, 0, 0, 0.2);
+}
+
+.subtitle {
+  margin-top: 20px;
+  font-size: 10px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  color: rgba(255, 255, 255, 0.52);
+}
+
+@media (min-width: 640px) {
+  .subtitle {
+    margin-top: 28px;
+    font-size: 12px;
+  }
+}
+
+@media (min-width: 768px) {
+  .subtitle {
+    font-size: 14px;
+  }
+}
+
+/* ── Bottom bar ── */
+.bottomBar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+}
+
+/* ── Scroll indicator ── */
+.scrollIndicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+}
+
+.scrollIndicator:hover .scrollLabel {
+  color: #fff;
+}
+
+.scrollLabel {
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.35em;
+  color: rgba(255, 255, 255, 0.58);
+  transition: color 0.3s ease;
+}
+
+@media (min-width: 640px) {
+  .scrollLabel {
+    font-size: 10px;
+  }
+}
+
+.scrollLine {
+  position: relative;
+  width: 1px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.18);
+  overflow: hidden;
+}
+
+.scrollLinePulse {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 50%;
+  background: #fff;
+  animation: scrollPulse 1.8s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(250%);
+  }
+}
+
+/* ── Controls ── */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.soundHint {
+  display: none;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  color: rgba(255, 255, 255, 0.78);
+  animation: pulseFade 2.2s ease-in-out infinite;
+}
+
+@media (min-width: 640px) {
+  .soundHint {
+    display: inline;
+  }
+}
+
+@keyframes pulseFade {
+  0%,
+  100% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Glassmorphism control button */
+.controlBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.065);
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  color: #fff;
+  cursor: pointer;
+  transition: all 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+@media (min-width: 640px) {
+  .controlBtn {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+.controlBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.3);
+  transform: scale(1.12);
+  box-shadow: 0 4px 24px rgba(255, 255, 255, 0.06);
+}
+
+.controlBtn:active {
+  transform: scale(0.96);
+}
+
+/* ── Focus-visible (keyboard accessibility) ── */
+.controlBtn:focus-visible,
+.emailBtn:focus-visible {
+  outline: 2px solid rgba(255, 140, 66, 0.6);
+  outline-offset: 3px;
+}
+
+.navLink:focus-visible {
+  outline: 2px solid rgba(255, 140, 66, 0.6);
+  outline-offset: 5px;
+}
+
+.scrollIndicator:focus-visible .scrollLabel {
+  color: rgba(255, 140, 66, 0.75);
+}

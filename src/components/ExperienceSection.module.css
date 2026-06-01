@@ -1,0 +1,561 @@
+/* ============================================================
+   ExperienceSection.module.css
+   Premium alternating timeline "Field Experience" section.
+   Accent system: Amber · Teal · Indigo · Rose
+   Matches the portfolio's #0C0C0C / Kanit / #D7E2EA design tokens.
+   ============================================================ */
+
+/* ── Section ── */
+.section {
+  position: relative;
+  width: 100%;
+  padding: 80px 16px 96px;
+}
+
+@media (min-width: 640px) {
+  .section { padding: 100px 24px 112px; }
+}
+
+@media (min-width: 768px) {
+  .section { padding: 120px 40px 128px; }
+}
+
+/* ── Section ambient background glow ── */
+.section::before {
+  content: '';
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 50%;
+  background: radial-gradient(ellipse, rgba(245, 158, 11, 0.022) 0%, transparent 70%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── Header ── */
+.header {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  margin-bottom: 72px;
+}
+
+@media (min-width: 640px) { .header { margin-bottom: 88px; } }
+@media (min-width: 768px) { .header { margin-bottom: 108px; } }
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.38em;
+  color: rgba(245, 158, 11, 0.72);
+  margin-bottom: 16px;
+}
+
+@media (min-width: 640px) {
+  .eyebrow { font-size: 11px; margin-bottom: 20px; }
+}
+
+.eyebrowDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #F59E0B;
+  flex-shrink: 0;
+  animation: eyebrowPulse 2.2s ease-in-out infinite;
+}
+
+@keyframes eyebrowPulse {
+  0%, 100% { opacity: 1;    transform: scale(1); }
+  50%       { opacity: 0.3; transform: scale(0.6); }
+}
+
+.heading {
+  font-size: clamp(3rem, 12vw, 160px);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+  line-height: 0.9;
+  background: linear-gradient(180deg, #646973 0%, #bbccd7 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.subheading {
+  margin-top: 20px;
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  color: rgba(215, 226, 234, 0.33);
+}
+
+@media (min-width: 640px) {
+  .subheading { font-size: 12px; margin-top: 24px; }
+}
+
+/* ─────────────────────────────────────────────
+   TIMELINE CONTAINER
+   ───────────────────────────────────────────── */
+.timeline {
+  position: relative;
+  max-width: 1100px;
+  margin: 0 auto;
+  z-index: 1;
+}
+
+/* ── Vertical line (wrapper separates positioning from scaleY animation) ── */
+.timelineLineWrapper {
+  position: absolute;
+  left: calc(50% - 1px); /* centres the 2px line */
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Framer Motion animates scaleY on this element */
+.timelineLine {
+  width: 100%;
+  height: 100%;
+  transform-origin: top;
+  background: linear-gradient(
+    to bottom,
+    transparent                        0%,
+    rgba(245, 158, 11, 0.2)            5%,
+    rgba(245, 158, 11, 0.16)          50%,
+    rgba(245, 158, 11, 0.2)           95%,
+    transparent                       100%
+  );
+}
+
+/* ─────────────────────────────────────────────
+   ENTRY ROW (one per experience)
+   ───────────────────────────────────────────── */
+.entry {
+  position: relative;
+  display: flex;
+  margin-bottom: 52px;
+}
+
+@media (min-width: 640px) { .entry { margin-bottom: 64px; } }
+@media (min-width: 768px) { .entry { margin-bottom: 76px; } }
+
+/* Last entry has no bottom margin */
+.entry:last-child { margin-bottom: 0; }
+
+/* Left card: card fills left half, right half is timeline+gap */
+.entryLeft {
+  justify-content: flex-start;
+  padding-right: calc(50% + 38px);
+}
+
+/* Right card: card fills right half, left half is timeline+gap */
+.entryRight {
+  justify-content: flex-end;
+  padding-left: calc(50% + 38px);
+}
+
+/* ── Mobile: single column with left-rail timeline ── */
+@media (max-width: 767px) {
+  .timelineLineWrapper { left: 23px; }
+
+  .entryLeft,
+  .entryRight {
+    padding-right: 0;
+    padding-left: 60px;
+    justify-content: flex-start;
+  }
+}
+
+/* ─────────────────────────────────────────────
+   TIMELINE NODE (circle on the vertical line)
+   ───────────────────────────────────────────── */
+.nodeWrapper {
+  position: absolute;
+  top: 28px;
+  left: calc(50% - 11px); /* centres the 22px node */
+  z-index: 5;
+  width: 22px;
+  height: 22px;
+}
+
+@media (max-width: 767px) {
+  .nodeWrapper { left: 12px; }
+}
+
+/* Outer ring (border colour set per variant) */
+.node {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #0C0C0C;
+  border: 2px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+/* Inner solid dot */
+.nodeDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Sonar expanding ring */
+.sonarRing {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1.5px solid;
+  animation: sonarPing 2.8s ease-out infinite;
+  z-index: 1;
+}
+
+@keyframes sonarPing {
+  0%   { transform: scale(0.8); opacity: 0.65; }
+  100% { transform: scale(2.1); opacity: 0; }
+}
+
+/* ─────────────────────────────────────────────
+   HORIZONTAL CONNECTOR (card edge → node)
+   ───────────────────────────────────────────── */
+.connector {
+  position: absolute;
+  /* top aligns with node centre: nodeTop(28) + nodeHalf(11) - lineHalf(0.5) */
+  top: 38px;
+  height: 1px;
+  width: 38px;
+  z-index: 3;
+}
+
+/* Left entry: connector's RIGHT edge meets the timeline */
+.entryLeft .connector { right: calc(50% - 1px); }
+
+/* Right entry: connector's LEFT edge starts at the timeline */
+.entryRight .connector { left: calc(50% - 1px); }
+
+@media (max-width: 767px) {
+  .connector { display: none; }
+}
+
+/* ─────────────────────────────────────────────
+   EXPERIENCE CARD
+   ───────────────────────────────────────────── */
+.card {
+  width: 100%;
+  background: #111116;
+  border: 1.5px solid rgba(215, 226, 234, 0.08); /* overridden per variant */
+  border-radius: 24px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+}
+
+@media (min-width: 640px) {
+  .card { padding: 28px 32px; border-radius: 28px; gap: 16px; }
+}
+
+.card:hover { transform: translateY(-4px); }
+
+/* Corner ambient glow (coloured per variant) */
+.card::before {
+  content: '';
+  position: absolute;
+  bottom: -25%;
+  left: -12%;
+  width: 50%;
+  height: 52%;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 0;
+  transition: opacity 0.4s ease;
+}
+
+/* All card children sit above the glow */
+.cardHeader,
+.roleRow,
+.divider,
+.bullets,
+.techSection {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Card header: initials + company + badge ── */
+.cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.cardHeaderLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex: 1;
+}
+
+/* Company initials circle */
+.initials {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+@media (min-width: 640px) {
+  .initials { width: 48px; height: 48px; font-size: 13px; }
+}
+
+.companyName {
+  font-size: clamp(0.82rem, 1.4vw, 1.02rem);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  line-height: 1.22;
+  color: #D7E2EA;
+  min-width: 0;
+}
+
+/* Type badge */
+.typeBadge {
+  flex-shrink: 0;
+  font-size: 9px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  padding: 5px 12px;
+  border-radius: 9999px;
+  border: 1px solid;
+  white-space: nowrap;
+  align-self: flex-start;
+}
+
+@media (min-width: 640px) { .typeBadge { font-size: 10px; } }
+
+/* ── Role + period row ── */
+.roleRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.role {
+  font-size: clamp(0.78rem, 1.25vw, 0.93rem);
+  font-weight: 500;
+  /* colour per variant */
+}
+
+.dateBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.period {
+  font-size: 11px;
+  font-weight: 400;
+  color: rgba(215, 226, 234, 0.34);
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+
+.duration {
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: rgba(215, 226, 234, 0.22);
+}
+
+/* ── Divider ── */
+.divider {
+  height: 1px;
+  background: rgba(215, 226, 234, 0.07);
+}
+
+/* ── Achievement bullet list ── */
+.bullets {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.bullet {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.bulletArrow {
+  flex-shrink: 0;
+  margin-top: 1px;
+  font-size: 14px;
+  line-height: 1.62;
+  font-weight: 700;
+  /* colour per variant */
+}
+
+.bulletText {
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: rgba(215, 226, 234, 0.5);
+}
+
+@media (min-width: 640px) { .bulletText { font-size: 13.5px; } }
+
+/* ── Tech stack section ── */
+.techSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 1px solid rgba(215, 226, 234, 0.06);
+  padding-top: 14px;
+}
+
+.techLabel {
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  color: rgba(215, 226, 234, 0.26);
+}
+
+.techPills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.techPill {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 4px 11px;
+  border-radius: 9999px;
+  color: rgba(215, 226, 234, 0.55);
+  background: rgba(215, 226, 234, 0.04);
+  border: 1px solid rgba(215, 226, 234, 0.1);
+  transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+.card:hover .techPill {
+  color: rgba(215, 226, 234, 0.78);
+  border-color: rgba(215, 226, 234, 0.2);
+}
+
+/* =============================================================
+   VARIANT STYLES  —  Amber · Teal · Indigo · Rose
+   Each variant colours: card border, glow, initials, badge,
+   role text, bullet arrow, connector, node border & dot, sonar.
+   ============================================================= */
+
+/* ── AMBER (#F59E0B) ── */
+.card.amber { border-color: rgba(245, 158, 11, 0.22); }
+.card.amber:hover {
+  border-color: rgba(245, 158, 11, 0.5);
+  box-shadow: 0 14px 44px rgba(245, 158, 11, 0.07);
+}
+.card.amber::before {
+  background: radial-gradient(ellipse, rgba(245, 158, 11, 0.07) 0%, transparent 68%);
+}
+.card.amber .initials  { background: rgba(245, 158, 11, 0.1);  color: #F59E0B; }
+.card.amber .typeBadge { color: #F59E0B; border-color: rgba(245, 158, 11, 0.3); background: rgba(245, 158, 11, 0.07); }
+.card.amber .role      { color: #F59E0B; }
+.card.amber .bulletArrow { color: rgba(245, 158, 11, 0.7); }
+
+.entry.amber .node      { border-color: #F59E0B; box-shadow: 0 0 10px rgba(245, 158, 11, 0.25); }
+.entry.amber .nodeDot   { background: #F59E0B; box-shadow: 0 0 7px rgba(245, 158, 11, 0.7); }
+.entry.amber .sonarRing { border-color: rgba(245, 158, 11, 0.45); }
+.entry.amber .connector { background: rgba(245, 158, 11, 0.25); }
+
+/* ── TEAL (#14B8A6) ── */
+.card.teal { border-color: rgba(20, 184, 166, 0.22); }
+.card.teal:hover {
+  border-color: rgba(20, 184, 166, 0.5);
+  box-shadow: 0 14px 44px rgba(20, 184, 166, 0.07);
+}
+.card.teal::before {
+  background: radial-gradient(ellipse, rgba(20, 184, 166, 0.07) 0%, transparent 68%);
+}
+.card.teal .initials  { background: rgba(20, 184, 166, 0.1); color: #14B8A6; }
+.card.teal .typeBadge { color: #14B8A6; border-color: rgba(20, 184, 166, 0.3); background: rgba(20, 184, 166, 0.07); }
+.card.teal .role      { color: #14B8A6; }
+.card.teal .bulletArrow { color: rgba(20, 184, 166, 0.7); }
+
+.entry.teal .node      { border-color: #14B8A6; box-shadow: 0 0 10px rgba(20, 184, 166, 0.25); }
+.entry.teal .nodeDot   { background: #14B8A6; box-shadow: 0 0 7px rgba(20, 184, 166, 0.7); }
+.entry.teal .sonarRing { border-color: rgba(20, 184, 166, 0.45); }
+.entry.teal .connector { background: rgba(20, 184, 166, 0.25); }
+
+/* ── INDIGO (#818CF8) ── */
+.card.indigo { border-color: rgba(129, 140, 248, 0.22); }
+.card.indigo:hover {
+  border-color: rgba(129, 140, 248, 0.5);
+  box-shadow: 0 14px 44px rgba(129, 140, 248, 0.07);
+}
+.card.indigo::before {
+  background: radial-gradient(ellipse, rgba(129, 140, 248, 0.07) 0%, transparent 68%);
+}
+.card.indigo .initials  { background: rgba(129, 140, 248, 0.1); color: #818CF8; }
+.card.indigo .typeBadge { color: #818CF8; border-color: rgba(129, 140, 248, 0.3); background: rgba(129, 140, 248, 0.07); }
+.card.indigo .role      { color: #818CF8; }
+.card.indigo .bulletArrow { color: rgba(129, 140, 248, 0.7); }
+
+.entry.indigo .node      { border-color: #818CF8; box-shadow: 0 0 10px rgba(129, 140, 248, 0.25); }
+.entry.indigo .nodeDot   { background: #818CF8; box-shadow: 0 0 7px rgba(129, 140, 248, 0.7); }
+.entry.indigo .sonarRing { border-color: rgba(129, 140, 248, 0.45); }
+.entry.indigo .connector { background: rgba(129, 140, 248, 0.25); }
+
+/* ── ROSE (#FB7185) ── */
+.card.rose { border-color: rgba(251, 113, 133, 0.22); }
+.card.rose:hover {
+  border-color: rgba(251, 113, 133, 0.5);
+  box-shadow: 0 14px 44px rgba(251, 113, 133, 0.07);
+}
+.card.rose::before {
+  background: radial-gradient(ellipse, rgba(251, 113, 133, 0.07) 0%, transparent 68%);
+}
+.card.rose .initials  { background: rgba(251, 113, 133, 0.1); color: #FB7185; }
+.card.rose .typeBadge { color: #FB7185; border-color: rgba(251, 113, 133, 0.3); background: rgba(251, 113, 133, 0.07); }
+.card.rose .role      { color: #FB7185; }
+.card.rose .bulletArrow { color: rgba(251, 113, 133, 0.7); }
+
+.entry.rose .node      { border-color: #FB7185; box-shadow: 0 0 10px rgba(251, 113, 133, 0.25); }
+.entry.rose .nodeDot   { background: #FB7185; box-shadow: 0 0 7px rgba(251, 113, 133, 0.7); }
+.entry.rose .sonarRing { border-color: rgba(251, 113, 133, 0.45); }
+.entry.rose .connector { background: rgba(251, 113, 133, 0.25); }
