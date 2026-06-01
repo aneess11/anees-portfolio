@@ -86,8 +86,14 @@ const ProjectCard = ({ project, index, total, containerRef }: ProjectCardProps) 
   return (
     <div
       ref={cardRef}
-      className="sticky top-24 md:top-32 h-[85vh] w-full"
-      style={{ top: `${96 + index * 28}px` }}
+      className="sticky w-full"
+      style={{
+        top: `${typeof window !== 'undefined' && window.innerWidth < 768
+          ? 72 + index * 16
+          : 96 + index * 28}px`,
+        height: 'auto',
+        minHeight: '60vh',
+      }}
     >
       <motion.article
         style={{ scale }}

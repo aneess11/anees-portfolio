@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { Volume2, VolumeX, Play, Pause } from 'lucide-react';
+import { Volume2, VolumeX, Play, Pause, Menu, X } from 'lucide-react';
 import gsap from 'gsap';
 import CinematicLayer from './CinematicLayer';
 import styles from './CinematicHero.module.css';
@@ -40,6 +40,7 @@ const CinematicHero = () => {
   const [muted, setMuted] = useState(true);
   const [playing, setPlaying] = useState(true);
   const [showSoundHint, setShowSoundHint] = useState(true);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   /* ──────────────────────────────────────────
      GSAP cinematic entrance timeline
@@ -205,6 +206,10 @@ const CinematicHero = () => {
       <div className={styles.content}>
         {/* ── Top bar: navigation ── */}
         <nav ref={navRef} className={styles.nav} aria-label="Main navigation">
+          {/* Logo / name — always visible */}
+          <span className={styles.navLogo}>Anees Ahmed</span>
+
+          {/* Desktop nav links */}
           <ul className={styles.navLinks}>
             {NAV_LINKS.map((link) => (
               <li key={link.label}>
@@ -215,10 +220,41 @@ const CinematicHero = () => {
             ))}
           </ul>
 
-          <a href="#contact" className={styles.emailBtn}>
-            Email me
-          </a>
+          {/* Right side: email btn + hamburger */}
+          <div className={styles.navRight}>
+            <a href="#contact" className={styles.emailBtn}>
+              Email me
+            </a>
+            {/* Hamburger — visible only on mobile */}
+            <button
+              className={styles.hamburger}
+              aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={mobileMenuOpen}
+              onClick={() => setMobileMenuOpen((v) => !v)}
+            >
+              {mobileMenuOpen ? <X size={22} strokeWidth={1.8} /> : <Menu size={22} strokeWidth={1.8} />}
+            </button>
+          </div>
         </nav>
+
+        {/* ── Mobile menu overlay ── */}
+        {mobileMenuOpen && (
+          <div className={styles.mobileMenu} role="dialog" aria-label="Navigation menu">
+            <ul className={styles.mobileMenuLinks}>
+              {NAV_LINKS.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    className={styles.mobileMenuLink}
+                    onClick={() => setMobileMenuOpen(false)}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
 
         {/* ── Hero text ── */}
         <div className={styles.heroText}>

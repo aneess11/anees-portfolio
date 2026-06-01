@@ -83,7 +83,7 @@ const EXPERIENCES: ExperienceEntry[] = [
     accent: 'rose',
     type: 'Training',
     initials: 'ATS',
-    company: 'Advance TelecoM Services',
+    company: 'Advanced Telecom Services',
     role: 'Applied AI',
     period: 'Oct 2025 — Dec 2025',
     duration: '3 months',

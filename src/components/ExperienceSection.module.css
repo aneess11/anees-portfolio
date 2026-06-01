@@ -155,13 +155,25 @@
 /* Left card: card fills left half, right half is timeline+gap */
 .entryLeft {
   justify-content: flex-start;
-  padding-right: calc(50% + 38px);
+  padding-right: calc(50% + 28px); /* tablet */
+}
+
+@media (min-width: 1024px) {
+  .entryLeft {
+    padding-right: calc(50% + 38px); /* wide desktop */
+  }
 }
 
 /* Right card: card fills right half, left half is timeline+gap */
 .entryRight {
   justify-content: flex-end;
-  padding-left: calc(50% + 38px);
+  padding-left: calc(50% + 28px); /* tablet */
+}
+
+@media (min-width: 1024px) {
+  .entryRight {
+    padding-left: calc(50% + 38px); /* wide desktop */
+  }
 }
 
 /* ── Mobile: single column with left-rail timeline ── */

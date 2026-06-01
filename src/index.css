@@ -2,12 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ══════════════════════════════════════════════════
+   Global Styles — Anees Ahmed Portfolio
+   Supports: Chrome, Firefox, Safari, iOS, Android
+   ══════════════════════════════════════════════════ */
+
+/* ── Reset ── */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+}
+
+/* ── Root ── */
+html {
+  /* Prevent font size inflation on iOS Safari */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  /* Smooth anchor-link scrolling */
+  scroll-behavior: smooth;
 }
 
 html,
@@ -20,11 +35,34 @@ body,
 }
 
 body {
-  min-height: 100vh;
+  /* dvh = dynamic viewport height: accounts for mobile browser toolbars */
+  min-height: 100dvh;
+  min-height: 100vh; /* fallback for older browsers */
   color: #d7e2ea;
   overflow-x: hidden;
+  /* Sharper text rendering on all devices */
+  text-rendering: optimizeLegibility;
+  /* Remove the blue tap-highlight flash on iOS/Android */
+  -webkit-tap-highlight-color: transparent;
 }
 
+/* ── Fluid media defaults ── */
+img,
+video {
+  max-width: 100%;
+  display: block;
+  /* Prevent accidental drag on desktop */
+  -webkit-user-drag: none;
+  user-select: none;
+}
+
+/* ── Touch-optimised interaction for tappable elements ── */
+a,
+button {
+  touch-action: manipulation; /* removes 300ms tap delay on mobile */
+}
+
+/* ── Hero gradient heading (used across multiple sections) ── */
 .hero-heading {
   background: linear-gradient(180deg, #646973 0%, #bbccd7 100%);
   -webkit-background-clip: text;
@@ -33,22 +71,25 @@ body {
   color: transparent;
 }
 
-/* Subtle scrollbar that matches the dark theme */
+/* ── Themed scrollbar ── */
+/* Chromium / WebKit */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: 8px;
   background: #0c0c0c;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1f1f24;
+  background: #222228;
   border-radius: 6px;
+  border: 2px solid #0c0c0c;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #2a2a30;
+  background: #2e2e36;
 }
 
-img {
-  -webkit-user-drag: none;
-  user-select: none;
+/* Firefox */
+* {
+  scrollbar-color: #222228 #0c0c0c;
+  scrollbar-width: thin;
 }
