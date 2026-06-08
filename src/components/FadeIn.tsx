@@ -1,5 +1,16 @@
+import { memo, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import type { ReactNode, ElementType } from 'react';
+
+/**
+ * FadeIn — Scroll-triggered fade + translate animation wrapper.
+ *
+ * PERFORMANCE v2:
+ *  1. Memoised with React.memo to prevent unnecessary re-renders.
+ *  2. motion.create() result is cached via useMemo (was called every render).
+ *  3. viewport.once: true ensures the animation only fires once, then detaches
+ *     the IntersectionObserver — no lingering scroll listeners.
+ */
 
 interface FadeInProps {
   children: ReactNode;
@@ -12,7 +23,7 @@ interface FadeInProps {
   style?: React.CSSProperties;
 }
 
-const FadeIn = ({
+const FadeIn = memo(({
   children,
   delay = 0,
   duration = 0.7,
@@ -22,8 +33,8 @@ const FadeIn = ({
   className,
   style,
 }: FadeInProps) => {
-  // motion.create() supports dynamic element types in framer-motion v12
-  const MotionComponent = motion.create(as);
+  // Cache the motion component — motion.create() is expensive to call per render
+  const MotionComponent = useMemo(() => motion.create(as), [as]);
 
   return (
     <MotionComponent
@@ -41,6 +52,8 @@ const FadeIn = ({
       {children}
     </MotionComponent>
   );
-};
+});
+
+FadeIn.displayName = 'FadeIn';
 
 export default FadeIn;

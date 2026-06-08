@@ -4,10 +4,12 @@ import * as THREE from 'three';
 /**
  * CinematicLayer — Floating bokeh particle overlay using Three.js.
  *
- * Creates a dreamy, depth-rich atmosphere with warm orange + white
- * glowing particles, additive blending, sine-wave oscillation,
- * and mouse-driven parallax. Renders on a transparent canvas
- * that sits above the video but below the UI content.
+ * PERFORMANCE OPTIMISATIONS (v2):
+ *  1. Uses IntersectionObserver to PAUSE the render loop when off-screen.
+ *  2. Caps pixel ratio at 1.5 (instead of 2) — halves GPU fill-rate.
+ *  3. Reduced particle count: 35 (mobile) / 70 (desktop).
+ *  4. Throttles to 30 FPS instead of 60 to halve CPU/GPU usage.
+ *  5. Uses passively-listened mousemove and debounced resize.
  */
 const CinematicLayer = () => {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -16,9 +18,11 @@ const CinematicLayer = () => {
     const container = containerRef.current;
     if (!container) return;
 
-    /* ── Performance-aware particle count ── */
+    /* ── Performance-aware settings ── */
     const isMobile = window.innerWidth < 768;
-    const PARTICLE_COUNT = isMobile ? 55 : 110;
+    const PARTICLE_COUNT = isMobile ? 35 : 70;
+    const TARGET_FPS = 30;
+    const FRAME_INTERVAL = 1000 / TARGET_FPS;
 
     /* ── Scene ── */
     const scene = new THREE.Scene();
@@ -36,7 +40,7 @@ const CinematicLayer = () => {
       powerPreference: 'high-performance',
     });
     renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
     renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
 
@@ -62,25 +66,20 @@ const CinematicLayer = () => {
     const amplitudes = new Float32Array(PARTICLE_COUNT);
 
     for (let i = 0; i < PARTICLE_COUNT; i++) {
-      // Spread across a wide 3D volume
       positions[i * 3] = (Math.random() - 0.5) * 26;
       positions[i * 3 + 1] = (Math.random() - 0.5) * 15;
       positions[i * 3 + 2] = (Math.random() - 0.5) * 14 - 2;
 
-      // Colour palette: warm orange ↔ soft cream ↔ faint blue
       const t = Math.random();
       if (t < 0.42) {
-        // Warm orange tones
         colors[i * 3] = 0.94 + Math.random() * 0.06;
         colors[i * 3 + 1] = 0.42 + Math.random() * 0.22;
         colors[i * 3 + 2] = 0.12 + Math.random() * 0.16;
       } else if (t < 0.78) {
-        // Soft warm white / cream
         colors[i * 3] = 0.9 + Math.random() * 0.1;
         colors[i * 3 + 1] = 0.86 + Math.random() * 0.1;
         colors[i * 3 + 2] = 0.8 + Math.random() * 0.12;
       } else {
-        // Subtle monitor-blue accent
         colors[i * 3] = 0.38 + Math.random() * 0.2;
         colors[i * 3 + 1] = 0.58 + Math.random() * 0.22;
         colors[i * 3 + 2] = 0.88 + Math.random() * 0.12;
@@ -109,7 +108,6 @@ const CinematicLayer = () => {
     const points = new THREE.Points(geometry, material);
     scene.add(points);
 
-    // Keep a copy of the original positions for sine-wave offset
     const origin = new Float32Array(positions);
 
     /* ── Mouse parallax ── */
@@ -122,12 +120,32 @@ const CinematicLayer = () => {
     };
     window.addEventListener('mousemove', onMouseMove, { passive: true });
 
-    /* ── Render loop ── */
+    /* ── Visibility control: pause when off-screen ── */
+    let isVisible = true;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+      },
+      { threshold: 0 },
+    );
+    observer.observe(container);
+
+    /* ── 30 FPS throttled render loop ── */
     let raf: number;
     const clock = new THREE.Clock();
+    let lastFrameTime = 0;
 
-    const animate = () => {
+    const animate = (now: number) => {
       raf = requestAnimationFrame(animate);
+
+      // Skip if off-screen — save 100% of GPU work when scrolled away
+      if (!isVisible) return;
+
+      // Throttle to 30fps — halves GPU load vs 60fps
+      const delta = now - lastFrameTime;
+      if (delta < FRAME_INTERVAL) return;
+      lastFrameTime = now - (delta % FRAME_INTERVAL);
+
       const t = clock.getElapsedTime();
 
       // Smooth camera parallax
@@ -157,21 +175,27 @@ const CinematicLayer = () => {
 
       renderer.render(scene, camera);
     };
-    animate();
+    raf = requestAnimationFrame(animate);
 
-    /* ── Resize ── */
+    /* ── Debounced resize ── */
+    let resizeTimer: ReturnType<typeof setTimeout>;
     const onResize = () => {
-      const w = container.clientWidth;
-      const h = container.clientHeight;
-      camera.aspect = w / h;
-      camera.updateProjectionMatrix();
-      renderer.setSize(w, h);
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        const w = container.clientWidth;
+        const h = container.clientHeight;
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h);
+      }, 200);
     };
-    window.addEventListener('resize', onResize);
+    window.addEventListener('resize', onResize, { passive: true });
 
     /* ── Cleanup ── */
     return () => {
       cancelAnimationFrame(raf);
+      clearTimeout(resizeTimer);
+      observer.disconnect();
       window.removeEventListener('mousemove', onMouseMove);
       window.removeEventListener('resize', onResize);
       geometry.dispose();

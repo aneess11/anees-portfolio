@@ -1,8 +1,10 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, lazy, Suspense } from 'react';
 import { Volume2, VolumeX, Play, Pause, Menu, X } from 'lucide-react';
 import gsap from 'gsap';
-import CinematicLayer from './CinematicLayer';
 import styles from './CinematicHero.module.css';
+
+/* Lazy-load Three.js particle layer — avoids blocking initial paint */
+const CinematicLayer = lazy(() => import('./CinematicLayer'));
 
 /* ──────────────────────────────────────────────
    Configuration — edit these to personalise
@@ -41,6 +43,12 @@ const CinematicHero = () => {
   const [playing, setPlaying] = useState(true);
   const [showSoundHint, setShowSoundHint] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  /* ── Detect mobile once on mount ── */
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
 
   /* ──────────────────────────────────────────
      GSAP cinematic entrance timeline
@@ -162,19 +170,22 @@ const CinematicHero = () => {
       {/* ── Cinematic curtain (fades out via GSAP) ── */}
       <div ref={curtainRef} className={styles.curtain} />
 
-      {/* ── Blurred ambient background video ── */}
-      <video
-        ref={bgVideoRef}
-        autoPlay
-        muted
-        loop
-        playsInline
-        preload="auto"
-        className={styles.videoBg}
-        aria-hidden="true"
-      >
-        <source src={VIDEO_SRC} type="video/mp4" />
-      </video>
+      {/* ── Blurred ambient background video (DESKTOP ONLY) ── */}
+      {/* On mobile the blur filter is extremely expensive — skip it entirely */}
+      {!isMobile && (
+        <video
+          ref={bgVideoRef}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+          className={styles.videoBg}
+          aria-hidden="true"
+        >
+          <source src={VIDEO_SRC} type="video/mp4" />
+        </video>
+      )}
 
       {/* ── Main foreground video ── */}
       <video
@@ -199,8 +210,13 @@ const CinematicHero = () => {
         <div className={styles.blueGlow} />
       </div>
 
-      {/* ── Three.js cinematic particle layer ── */}
-      <CinematicLayer />
+      {/* ── Three.js cinematic particle layer (DESKTOP ONLY) ── */}
+      {/* Lazy-loaded via React.lazy — downloads after initial paint */}
+      {!isMobile && (
+        <Suspense fallback={null}>
+          <CinematicLayer />
+        </Suspense>
+      )}
 
       {/* ── Content ── */}
       <div className={styles.content}>

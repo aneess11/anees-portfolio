@@ -26,15 +26,17 @@
 /* ── Video layers ── */
 .videoBg {
   position: absolute;
-  top: -80px;
-  left: -80px;
-  width: calc(100% + 160px);
-  height: calc(100% + 160px);
+  top: -40px;
+  left: -40px;
+  width: calc(100% + 80px);
+  height: calc(100% + 80px);
   object-fit: cover;
-  filter: blur(60px) saturate(1.5) brightness(0.32);
-  opacity: 0.55;
+  filter: blur(30px) saturate(1.3) brightness(0.3);
+  opacity: 0.45;
   z-index: 0;
   pointer-events: none;
+  will-change: transform; /* promote to own GPU layer */
+  contain: strict;        /* isolate from layout reflows */
 }
 
 .videoMain {
@@ -44,6 +46,7 @@
   height: 100%;
   object-fit: cover;
   z-index: 1;
+  will-change: transform;
 }
 
 /* ── Gradient overlays (layered for cinematic depth) ── */
@@ -548,3 +551,12 @@
   color: #fff;
   background: rgba(255, 255, 255, 0.05);
 }
+
+/* ── Accessibility: respect OS reduced-motion preference ── */
+@media (prefers-reduced-motion: reduce) {
+  .scrollLinePulse { animation: none; }
+  .soundHint      { animation: none; }
+  .controlBtn     { transition: none; }
+  .emailBtn       { transition: none; }
+}
+

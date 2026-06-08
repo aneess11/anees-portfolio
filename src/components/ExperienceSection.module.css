@@ -232,7 +232,7 @@
   inset: -6px;
   border-radius: 50%;
   border: 1.5px solid;
-  animation: sonarPing 2.8s ease-out infinite;
+  animation: sonarPing 3.5s ease-out infinite; /* slowed from 2.8s for fewer GPU composites */
   z-index: 1;
 }
 
@@ -278,6 +278,7 @@
   position: relative;
   overflow: hidden;
   transition: border-color 0.35s ease, box-shadow 0.35s ease, transform 0.35s ease;
+  will-change: transform; /* GPU compositor layer for hover lift */
 }
 
 @media (min-width: 640px) {
@@ -571,3 +572,10 @@
 .entry.rose .nodeDot   { background: #FB7185; box-shadow: 0 0 7px rgba(251, 113, 133, 0.7); }
 .entry.rose .sonarRing { border-color: rgba(251, 113, 133, 0.45); }
 .entry.rose .connector { background: rgba(251, 113, 133, 0.25); }
+
+/* ── Accessibility: disable infinite animations ── */
+@media (prefers-reduced-motion: reduce) {
+  .sonarRing,
+  .eyebrowDot { animation: none; }
+  .card { transition: none; }
+}

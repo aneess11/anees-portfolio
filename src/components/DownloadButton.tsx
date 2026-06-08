@@ -10,13 +10,6 @@ interface DownloadButtonProps {
   className?: string;
 }
 
-/**
- * Premium download-pill button.
- *
- * Uses the HTML5 `download` attribute so the browser triggers a
- * save-dialog instead of navigating away. A subtle animated
- * download icon reinforces the action.
- */
 const DownloadButton = ({
   href,
   label = 'Download PDF',
