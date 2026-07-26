@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, lazy, Suspense } from 'react';
-import { Volume2, VolumeX, Play, Pause, Menu, X } from 'lucide-react';
+import { Volume2, VolumeX, Play, Pause, Menu, X, Captions } from 'lucide-react';
 import gsap from 'gsap';
 import styles from './CinematicHero.module.css';
 
@@ -23,6 +23,15 @@ const HERO_TAGLINE = 'Portfolio · 2026';
 const HERO_SUBTITLE = 'Innovation in Security and Next-generation Digital Intelligence';
 const VIDEO_SRC = '/intro_anees.mp4';
 
+/* Subtitle cues for the video intro */
+const SUBTITLES = [
+  { start: 0.0, end: 1.8, text: 'From AI to cybersecurity...' },
+  { start: 1.8, end: 4.2, text: "I don't just study technology..." },
+  { start: 4.2, end: 7.2, text: 'I engineer intelligence systems that solve real-world problems.' },
+  { start: 7.2, end: 8.8, text: "Hello, I'm Anees Ahmed." },
+  { start: 8.8, end: 11.5, text: 'Welcome to my portfolio.' },
+];
+
 /* ──────────────────────────────────────────────
    CinematicHero Component
    ────────────────────────────────────────────── */
@@ -44,6 +53,8 @@ const CinematicHero = () => {
   const [showSoundHint, setShowSoundHint] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [showCaptions, setShowCaptions] = useState(false);
+  const [currentCaption, setCurrentCaption] = useState('');
 
   /* ── Detect mobile once on mount ── */
   useEffect(() => {
@@ -196,6 +207,11 @@ const CinematicHero = () => {
         playsInline
         preload="auto"
         className={styles.videoMain}
+        onTimeUpdate={(e) => {
+          const t = e.currentTarget.currentTime;
+          const cue = SUBTITLES.find((s) => t >= s.start && t < s.end);
+          setCurrentCaption(cue ? cue.text : '');
+        }}
       >
         <source src={VIDEO_SRC} type="video/mp4" />
       </video>
@@ -306,6 +322,15 @@ const CinematicHero = () => {
             )}
 
             <button
+              onClick={() => setShowCaptions((v) => !v)}
+              aria-label={showCaptions ? 'Hide subtitles' : 'Show subtitles'}
+              className={`${styles.controlBtn} ${showCaptions ? 'border-[#F59E0B] text-[#F59E0B] bg-[#F59E0B]/10' : ''}`}
+              title={showCaptions ? 'Subtitles On' : 'Turn Subtitles On'}
+            >
+              <Captions size={18} strokeWidth={1.8} />
+            </button>
+
+            <button
               onClick={togglePlay}
               aria-label={playing ? 'Pause video' : 'Play video'}
               className={styles.controlBtn}
@@ -330,6 +355,15 @@ const CinematicHero = () => {
             </button>
           </div>
         </div>
+
+        {/* Subtitle Caption Overlay */}
+        {showCaptions && currentCaption && (
+          <div className="absolute bottom-24 left-1/2 -translate-x-1/2 z-30 max-w-lg px-4 text-center pointer-events-none">
+            <span className="inline-block rounded-full border border-white/20 bg-black/80 px-5 py-2 text-xs sm:text-sm font-medium tracking-wide text-white shadow-2xl backdrop-blur-md animate-fadeIn">
+              {currentCaption}
+            </span>
+          </div>
+        )}
       </div>
     </section>
   );
