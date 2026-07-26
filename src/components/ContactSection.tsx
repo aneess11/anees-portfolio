@@ -26,7 +26,7 @@ const CONTACT_METHODS: ContactMethod[] = [
     icon: Linkedin,
     label: 'LinkedIn',
     value: 'in/aneeesahmed',
-    href: 'https://www.linkedin.com/n/aneeesahmed/',
+    href: 'https://www.linkedin.com/in/aneeesahmed/',
   },
   {
     icon: Github,

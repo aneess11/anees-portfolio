@@ -3,7 +3,7 @@ import ContactButton from './ContactButton';
 import AnimatedText from './AnimatedText';
 
 const ABOUT_TEXT =
-  "I'm Software Engineering student graduated from Pak-Austria Fachhochschule with hands-on experience in IT operations, cyber security, and digital forensics.Through internships at Software Productivity Strategists (AI projects & M365 administration) and Digital Empowerment Network (cybersecurity), I've worked on real environments, not just labs. I've also trained in digital forensics and malware detection at Cyborts, giving me a practical edge most entry-level candidates don't have.. Let's build something incredible together!";
+  "I'm a Software Engineering graduate from Pak-Austria Fachhochschule with hands-on experience in IT operations, cybersecurity, and digital forensics. Through internships at Software Productivity Strategists (AI projects & M365 administration) and Digital Empowerment Network (cybersecurity), I've worked in real production environments, not just labs. I've also trained in digital forensics and malware detection at Cyborts, giving me a practical edge most entry-level candidates don't have. Let's build something incredible together!";
 
 const AboutSection = () => {
   return (
@@ -108,11 +108,11 @@ const AboutSection = () => {
                 },
                 {
                   label: 'AI & AI Agents',
-                  items: ['Gemini', 'Claude', 'OpenAI', 'Prompt engineering', 'LLama', 'LangChain', 'LanGraph'],
+                  items: ['Gemini', 'Claude', 'OpenAI', 'Prompt engineering', 'LLaMA', 'LangChain', 'LangGraph'],
                 },
                 {
                   label: 'Cybersecurity & Digital Forensics',
-                  items: ['Splunk', 'Wazuh', 'Wireshark', 'Metasploit', 'Nmap', 'Burpsuite', 'Autopsy', 'Votality', 'Malware Analysis'],
+                  items: ['Splunk', 'Wazuh', 'Wireshark', 'Metasploit', 'Nmap', 'Burp Suite', 'Autopsy', 'Volatility 3', 'Malware Analysis'],
                 },
 
               ].map((group) => (
